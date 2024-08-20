@@ -13,21 +13,29 @@ import {
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
+
 const App = () => {
   const [detection, setDetection] = useState([]);
 
   useEffect(() => {
-    fetchDetection();
-  }, []);
-
-  const fetchDetection = async () => {
-    try {
-      const response = await axios.get(`${serverUrl}`);
-      setDetection(response.data);
-    } catch(error) {
-      console.error('error fetching detection:', error);
+    // fetchDetection()
+    const fetchDetection = async () => {
+      try {
+        console.log('Server URL:', serverUrl);
+        const response = await axios.get(`${serverUrl}/detection`);
+        console.log('Detection data:', response.data);
+        setDetection(response.data);
+      } catch(error) {
+        console.error('error fetching detection:', error);
+      }
     }
-};
+
+    const interval = setInterval(() => {
+      fetchDetection();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
 return (
   <Container maxW="container.lg" py={4}>
@@ -35,7 +43,7 @@ return (
         最新の検知情報
       </Heading>
       <VStack spacing={6}>
-        {detections.map((detection, index) => (
+        {detection.map((detection, index) => (
           <Box
             key={index}
             p={4}
@@ -48,7 +56,7 @@ return (
               <Image
                 boxSize="150px"
                 objectFit="cover"
-                src={detection.imageUrl}
+                src={"http://100.95.55.91:8081/image/" + detection.imageUrl}
                 alt={`Detection ${index + 1}`}
               />
               <VStack align="start">
