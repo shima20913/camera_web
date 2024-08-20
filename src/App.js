@@ -24,7 +24,7 @@ const App = () => {
         console.log('Server URL:', serverUrl);
         const response = await axios.get(`${serverUrl}/detection`);
         console.log('Detection data:', response.data);
-        setDetection(response.data);
+        setDetection(response.data.reverse());
       } catch(error) {
         console.error('error fetching detection:', error);
       }
