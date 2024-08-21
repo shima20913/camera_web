@@ -56,7 +56,7 @@ return (
               <Image
                 boxSize="150px"
                 objectFit="cover"
-                src={`${serverUrl}/image` + detection.imageUrl}
+                src={`${serverUrl}/image/` + detection.imageUrl}
                 alt={`Detection ${index + 1}`}
               />
               <VStack align="start">
